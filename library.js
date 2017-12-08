@@ -136,7 +136,7 @@ Library.prototype.getRandomAuthorName = function() {
     return null;
   }
   return this.bookArray[Math.floor(Math.random() * this.bookArray.length)].author;
-};
+};  
 
 /*Function 10: Rubust search function, search by more than one property*/
 // Library.prototype.search = function() {
