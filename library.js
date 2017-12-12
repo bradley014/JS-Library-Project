@@ -4,8 +4,8 @@ var Library = function() {
 };
 
 /*instantiating Library object as "myLibrary"...*/
-this.myLibrary = new Library();
-//this.myLibraryTwo = new Library();
+var myLibrary = new Library();
+//var myLibraryTwo = new Library();
 
 /*book constructor*/
 var Book = function(args) {
@@ -32,7 +32,7 @@ var multipleBooks = [
   new Book({title: "Prisoner of Azkaban", author: "J. K. Rowling", pages: 435, pubDate: "1999"})
 ];
 
-/*Empty multiple book array*/
+/*Empty multiple book array for testing purposes*/
 var arrayWithNoBooks = [];
 
 /*function 1: add book function*/
@@ -55,7 +55,7 @@ Library.prototype.removeBookByTitle = function(title) {
     return "Not a title in your library";
   }
   for (var i = 0; i < this.bookArray.length; i++) {
-     if (this.bookArray[i].title === title) {
+     if (this.bookArray[i].title.toLowerCase() === title.toLowerCase()) {
         this.bookArray.splice(i, 1);
         return true;
     }
@@ -65,14 +65,14 @@ Library.prototype.removeBookByTitle = function(title) {
 
 /*function 3: Remove book by Author function*/
 Library.prototype.removeBooksByAuthor = function(author) {
-  var b = false;
+  var boolean = false;
   for (var i = this.bookArray.length - 1; i >= 0; i--) {
      if (this.bookArray[i].author == author) {
         this.bookArray.splice(i, 1);
-        b = true;
+        boolean = true;
     }
   }
-  return b;
+  return boolean;
 };
 
 /*function 4: Get random book from library function*/
@@ -88,8 +88,8 @@ Library.prototype.getRandomBook = function() {
 Library.prototype.getBookByTitle = function(title) {
   var emptyArray = [];
   for (var i = 0; i < this.bookArray.length; i++) {
-    var s = this.bookArray[i].title.toLowerCase();
-    if (s.indexOf(title.toLowerCase()) > -1){
+    var string = this.bookArray[i].title.toLowerCase(); //don't use 'string' it's a key word
+    if (string.indexOf(title.toLowerCase()) > -1){
       emptyArray.push(this.bookArray[i]);
     }
   }
@@ -136,14 +136,22 @@ Library.prototype.getRandomAuthorName = function() {
     return null;
   }
   return this.bookArray[Math.floor(Math.random() * this.bookArray.length)].author;
-};  
+};
 
-/*Function 10: Rubust search function, search by more than one property*/
-// Library.prototype.search = function() {
+// /*Function 10: Rubust search function, search by more than one property...working*/
+// Library.prototype.search = function(book) {
 //   for (var i = 0; i < this.bookArray.length; i++) {
-//
+//     //var book = this.bookArray[i];
+//     switch (book) {
+//       case this.bookArray[i] === book:
+//         return "test";
+//         break;
+//       default:
+//         return "default";
+//     }
 //   }
-// }
+// };
+
 
 /*Testing*/
 // console.log(myLibrary.addBook(bookOne)); //1. add a book, return true
@@ -172,3 +180,80 @@ Library.prototype.getRandomAuthorName = function() {
 // console.log(myLibrary.addBooks(multipleBooks)); //return number zero if no books are added
 // console.log(myLibrary.getAuthors()); //8. get all author names in library
 // console.log(myLibrary.getRandomAuthorName()); //9. get a random author's name in library
+
+/*JQUERY*/
+/*hides all query boxes after page loads*/
+$(document).ready(function(){
+  $(".boxes").hide();
+});
+
+/*clears current query box*/
+$(document).ready(function(){
+    $(".home").click(function(){
+        $(".boxes").hide(1000);
+    });
+});
+
+/*toggles between query boxes as sidebar options are clicked*/
+$(document).ready(function(){
+  $(".btnOne").click(function(){
+    $(".boxes").filter(".boxOne").toggle(1000);
+    $(".boxTwo, .boxThree, .boxFour, .boxFive, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnTwo").click(function(){
+    $(".boxes").filter(".boxTwo").toggle(1000);
+    $(".boxOne, .boxThree, .boxFour, .boxFive, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnThree").click(function(){
+    $(".boxes").filter(".boxThree").toggle(1000);
+    $(".boxOne, .boxTwo, .boxFour, .boxFive, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnFour").click(function(){
+    $(".boxes").filter(".boxFour").toggle(1000);
+    $(".boxOne, .boxTwo, .boxThree, .boxFive, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnFive").click(function(){
+    $(".boxes").filter(".boxFive").toggle(1000);
+    $(".boxOne, .boxTwo, .boxThree, .boxFour, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnSix").click(function(){
+    $(".boxes").filter(".boxSix").toggle(1000);
+    $(".boxOne, .boxTwo, .boxThree, .boxFour, .boxFive, .boxSeven, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnSeven").click(function(){
+    $(".boxes").filter(".boxSeven").toggle(1000);
+    $(".boxOne, .boxTwo, .boxThree, .boxFour, .boxFive, .boxSix, .boxEight, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnEight").click(function(){
+    $(".boxes").filter(".boxEight").toggle(1000);
+    $(".boxOne, .boxTwo, .boxThree, .boxFour, .boxFive, .boxSix, .boxSeven, .boxNine").hide();
+  });
+});
+
+$(document).ready(function(){
+  $(".btnNine").click(function(){
+    $(".boxes").filter(".boxNine").toggle(1000);
+    $(".boxOne, .boxTwo, .boxThree, .boxFour, .boxFive, .boxSix, .boxSeven, .boxEight").hide();
+  });
+});
