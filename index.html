@@ -14,50 +14,50 @@
         <div id="sidebar-wrapper">
             <nav id="spy">
                 <ul class="sidebar-nav nav">
-                    <li class="home sidebar-brand">
+                    <li id="home" class="sidebar-brand">
                         <a href="#home"><span class="fa fa-home solo">Home</span></a>
                     </li>
-                    <li class="btnOne">
+                    <li id="btnOne">
                         <a href="#anch1" data-scroll>
                             <span class="fa fa-anchor solo">Add a Book</span>
                         </a>
                     </li>
-                    <li class="btnTwo">
+                    <li id="btnTwo">
                         <a href="#anch2" data-scroll>
                             <span class="fa fa-anchor solo">Remove Book by Title</span>
                         </a>
                     </li>
-                    <li class="btnThree">
+                    <li id="btnThree">
                         <a href="#anch3" data-scroll>
                             <span class="fa fa-anchor solo">Remove Book(s) by Author</span>
                         </a>
                     </li>
-                    <li class="btnFour">
+                    <li id="btnFour">
                         <a href="#anch4" data-scroll>
                             <span class="fa fa-anchor solo">Get a Random Book</span>
                         </a>
                     </li>
-                    <li class="btnFive">
+                    <li id="btnFive">
                         <a href="#anch5" data-scroll>
                             <span class="fa fa-anchor solo">Get Book by Title</span>
                         </a>
                     </li>
-                    <li class="btnSix">
+                    <li id="btnSix">
                         <a href="#anch6" data-scroll>
                             <span class="fa fa-anchor solo">Get Book by Author</span>
                         </a>
                     </li>
-                    <li class="btnSeven">
+                    <li id="btnSeven">
                         <a href="#anch7" data-scroll>
                             <span class="fa fa-anchor solo">Add Multiple Books</span>
                         </a>
                     </li>
-                    <li class="btnEight">
+                    <li id="btnEight">
                         <a href="#anch8" data-scroll>
                             <span class="fa fa-anchor solo">List All Authors</span>
                         </a>
                     </li>
-                    <li class="btnNine">
+                    <li id="btnNine">
                         <a href="#anch9" data-scroll>
                             <span class="fa fa-anchor solo">Get a Random Author</span>
                         </a>
@@ -73,32 +73,62 @@
             </div>
 
             <div class="page-content inset" data-spy="scroll" data-target="#spy">
-                <div class="row">
-
-                  <div class="jumbotron text-center">
-                    <!-- <p>This is a sidebar navigation responsive template built off of Bootstrap 3.0 and simple sidebar template. It includes anchors, scroll spy, smooth scroll, and Awesome icon fonts.</p> -->
-                    <!-- <p><a class="btn btn-default">Click On Me!</a>
-                    <a class="btn btn-info">Tweet Me!</a></p> -->
-                    <!-- <div class="output-well">
+                <!--jumbotron-->
+                <div class="jumbotron text-center">
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 title">
+                      <h2 class="leftTitle">Library</h2>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4 title">
+                      <h2 class="rightTitle">Search Results</h2>
+                    </div>
+                    <div class="col-md-1"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 column libraryColumn">
+                      <table class="table">
+                        <tr>
+                          <th>Title</th>
+                          <th>Author</th>
+                          <th>Pages</th>
+                          <th>Pub Date</th>
+                        </tr>
+                        <!-- <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                          <td>Aug</td>
+                        </tr> -->
+                      </table>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4 column">
 
                     </div>
-                    <button class="outputButton" type="button" name="button">button</button> -->
+                    <div class="col-md-1"></div>
                   </div>
-
                 </div>
+                <!--add a book form-->
                 <div class="row boxOne boxes">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6 well">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 well">
                         <legend id="anch1">Add a Book</legend>
                         <form class="form-inline">
                           <div class="form-group">
-                            <input type="text" class="form-control" id="inputAddBook" placeholder="Add Book">
+                            <input type="text" class="form-control" id="addBookTitle" placeholder="Title">
+                            <input type="text" class="form-control" id="addBookAuthor" placeholder="Author">
+                            <input type="text" class="form-control" id="addBookPages" placeholder="Pages">
+                            <input type="text" class="form-control" id="addBookPubDate" placeholder="Date">
                           </div>
-                          <button type="submit" class="btn btn-primary">Add Book</button>
+                          <button type="submit" class="btn btn-primary" id="addBookBtn">Add Book</button>
                         </form>
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                 </div>
+                <!--Remove book by title form-->
                 <div class="row boxTwo boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
@@ -107,11 +137,12 @@
                           <div class="form-group">
                             <input type="text" class="form-control" id="inputRemoveTitle" placeholder="Remove Title">
                           </div>
-                          <button type="submit" class="btn btn-primary">Remove Title</button>
+                          <button type="submit" class="btn btn-primary" id="removeTitleBtn">Remove Title</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--Remove book(s) by author form-->
                 <div class="row boxThree boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
@@ -125,19 +156,21 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--Get a random book form-->
                 <div class="row boxFour boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
                         <legend id="anch4">Get Random Book</legend>
                         <form class="form-inline">
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                             <input type="text" class="form-control" id="inputRandomBook" placeholder="Get Random Book">
-                          </div>
+                          </div> -->
                           <button type="submit" class="btn btn-primary">Get Random Book</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--Get book in library by title form-->
                 <div class="row boxFive boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
@@ -151,6 +184,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--Get book in library by author form-->
                 <div class="row boxSix boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
@@ -164,6 +198,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--Add multiple books at once form-->
                 <div class="row boxSeven boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
@@ -177,6 +212,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--List all authors in library form-->
                 <div class="row boxEight boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
@@ -190,14 +226,15 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <!--Get a random author from library form-->
                 <div class="row boxNine boxes">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 well">
                         <legend id="anch9">Get Random Author</legend>
                         <form class="form-inline">
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                             <input type="text" class="form-control" id="inputRandomAuthor" placeholder="Get Random Author">
-                          </div>
+                          </div> -->
                           <button type="submit" class="btn btn-primary">Get Random Author</button>
                         </form>
                     </div>

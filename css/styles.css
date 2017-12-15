@@ -123,17 +123,46 @@
 
 /*Jumbotron*/
 .jumbotron {
-  height: 300px;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
   border-radius: 5px;
   margin-top: 20px;
 }
 
-/*output well*/
-.output-well {
+.column {
+  height: 400px;
   background-color: #fff;
-  height: 200px;
-  width: 200px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  overflow-y: scroll;
+}
+
+.title h2 {
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 5px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.leftTitle {
+  background-color: #d00505;
+}
+
+.rightTitle {
+  background-color: #03b500;
+}
+
+.table {
+  margin-top: 10px;
+  border: 1px solid black;
+}
+
+.table th, .table td {
+  text-align: center;
+  border: 1px solid lightgrey;
+  color: blue;
+
 }
 
 @media (max-width:767px) {
