@@ -80,8 +80,8 @@
                     <div class="col-md-5 title">
                       <h2 class="leftTitle">Library</h2>
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4 title">
+                    <!-- <div class="col-md-1"></div> -->
+                    <div class="col-md-5 title">
                       <h2 class="rightTitle">Search Results</h2>
                     </div>
                     <div class="col-md-1"></div>
@@ -89,24 +89,28 @@
                   <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-5 column libraryColumn">
-                      <table class="table">
+                      <table class="table library-table">
                         <tr>
                           <th>Title</th>
                           <th>Author</th>
                           <th>Pages</th>
                           <th>Pub Date</th>
                         </tr>
-                        <!-- <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                          <td>Aug</td>
-                        </tr> -->
                       </table>
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4 column">
+                      <!-- <table class="table library-data">
 
+                      </table> -->
+                    </div>
+                    <!-- <div class="col-md-1"></div> -->
+                    <div class="col-md-5 column">
+                      <table class="table results-table">
+                        <tr>
+                          <th>Title</th>
+                          <th>Author</th>
+                          <th>Pages</th>
+                          <th>Pub Date</th>
+                        </tr>
+                      </table>
                     </div>
                     <div class="col-md-1"></div>
                   </div>
@@ -151,7 +155,7 @@
                           <div class="form-group">
                             <input type="text" class="form-control" id="inputRemoveAuthor" placeholder="Remove Author">
                           </div>
-                          <button type="submit" class="btn btn-primary">Remove Author</button>
+                          <button id="removeAuthorBtn" type="submit" class="btn btn-primary">Remove Author</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -165,7 +169,7 @@
                           <!-- <div class="form-group">
                             <input type="text" class="form-control" id="inputRandomBook" placeholder="Get Random Book">
                           </div> -->
-                          <button type="submit" class="btn btn-primary">Get Random Book</button>
+                          <button id="randomBookBtn" type="submit" class="btn btn-primary">Get Random Book</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -179,7 +183,7 @@
                           <div class="form-group">
                             <input type="text" class="form-control" id="inputGetTitle" placeholder="Get Book by Title">
                           </div>
-                          <button type="submit" class="btn btn-primary">Get Book by Title</button>
+                          <button id="bookByTitleBtn" type="submit" class="btn btn-primary">Get Book by Title</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -193,7 +197,7 @@
                           <div class="form-group">
                             <input type="text" class="form-control" id="inputAddBook" placeholder="Get Book by Author">
                           </div>
-                          <button type="submit" class="btn btn-primary">Get Book by Author</button>
+                          <button id="bookByAuthorBtn" type="submit" class="btn btn-primary">Get Book by Author</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -207,7 +211,7 @@
                           <div class="form-group">
                             <input type="text" class="form-control" id="inputAddBooks" placeholder="Add Books">
                           </div>
-                          <button type="submit" class="btn btn-primary">Add Books</button>
+                          <button id="addBooksBtn" type="submit" class="btn btn-primary">Add Books</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -221,7 +225,7 @@
                           <div class="form-group">
                             <input type="text" class="form-control" id="inputListAuthors" placeholder="List All Authors">
                           </div>
-                          <button type="submit" class="btn btn-primary">List All Authors</button>
+                          <button id="listAuthorsBtn" type="submit" class="btn btn-primary">List All Authors</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -235,7 +239,7 @@
                           <!-- <div class="form-group">
                             <input type="text" class="form-control" id="inputRandomAuthor" placeholder="Get Random Author">
                           </div> -->
-                          <button type="submit" class="btn btn-primary">Get Random Author</button>
+                          <button id="randomAuthorBtn" type="submit" class="btn btn-primary">Get Random Author</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>

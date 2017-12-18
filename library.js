@@ -24,15 +24,24 @@ Library.prototype.startUp = function() {
 Library.prototype.bindEvents = function() {
     $("#addBookBtn").on('click', $.proxy(this.handleAddBook, this));
     $("#removeTitleBtn").on('click', $.proxy(this.handleRemoveBookByTitle, this));
+    $("#removeAuthorBtn").on('click', $.proxy(this.handleRemoveBooksByAuthor, this));
+    $("#randomBookBtn").on('click', $.proxy(this.handleGetRandomBook, this));
+    $("#bookByTitleBtn").on('click', $.proxy(this.handleGetBookByTitle, this));
+    $("#bookByAuthorBtn").on('click', $.proxy(this.handleGetBookByAuthor, this));
+    $("#addBooksBtn").on('click', $.proxy(this.handleAddBooks, this));
+    $("#listAuthorsBtn").on('click', $.proxy(this.handleGetAuthor, this));
+    $("#randomAuthorBtn").on('click', $.proxy(this.handleGetRandomAuthor, this));
+
     /*disable and enable button*/
     $(".form-group input[type=submit]").attr('disabled', 'disabled');
     // When User Fills Out Form Completely
     $(".form-group button").keyup(function(){
     $(".form-group input[type=submit]").removeAttr('disabled');
     });
-}
+};
 
 //ACTION when the corresponding button is pressed (in the event listener section)
+/*Add Book Handler*/
 Library.prototype.handleAddBook = function(args) {
   var newBook = new Book(args);
     newBook.title = $("#addBookTitle").val();
@@ -40,22 +49,67 @@ Library.prototype.handleAddBook = function(args) {
     newBook.pages = $("#addBookPages").val();
     newBook.pubDate = $("#addBookPubDate").val();
     this.addBook(newBook);
-    this.displayAddBook(newBook);
     $(".form-group").children('input').val('');
 };
-
+/*Remove book by title handler*/
 Library.prototype.handleRemoveBookByTitle = function() {
-  this.removeBookByTitle();
+  var bookTitle = $("#inputRemoveTitle").val();
+  this.removeBookByTitle(bookTitle);
+  $(".form-group").children('input').val('');
+};
+/*Remove books by author handler*/
+Library.prototype.handleRemoveBooksByAuthor = function() {
+  var bookAuthor = $("#inputRemoveAuthor").val();
+  this.removeBooksByAuthor(bookAuthor);
+  $(".form-group").children('input').val('');
+};
+/*Get a random book handler*/
+Library.prototype.handleGetRandomBook = function() {
+  this.getRandomBook();
 };
 
-/*DISPLAY FUNCTION*/
-Library.prototype.displayAddBook = function(arguments) {
-  if (arguments) {
-  $(".table").append("<tr><td>" + arguments.title + "</td>"+"<td>" + arguments.author + "</td>"+"<td>" + arguments.pages + "</td>"+"<td>" + arguments.pubDate + "</td></tr>");
-  console.log("test");
+Library.prototype.handleGetBookByTitle = function() {};
+
+Library.prototype.handleGetBookByAuthor = function() {};
+
+Library.prototype.handleAddBooks = function() {};
+
+Library.prototype.handleGetAuthor = function() {};
+
+Library.prototype.handleGetRandomAuthor = function() {};
+
+
+/************* DISPLAY FUNCTIONS *************/
+/*displays current book array*/
+Library.prototype.displayArray = function(array) {
+  $('.data').remove();
+  //console.log(array.length);
+  for (var i = 0; i < array.length; i++) {
+    //console.log(i);
+    this.displayAddBook(array[i]);
   }
-  return false;
 };
+
+/*Display search results*/
+Library.prototype.displaySearchResults = function() {
+
+};
+
+/*Displays added book*/
+Library.prototype.displayAddBook = function(book) {
+  var newRow = $("<tr class='data'>");
+  var newTitle = $("<td>").text(book.title);
+  var newAuthor = $("<td>").text(book.author);
+  var newPages = $("<td>").text(book.pages);
+  var newPubDate = $("<td>").text(book.pubDate);
+  newRow.append(newTitle);
+  newRow.append(newAuthor);
+  newRow.append(newPages);
+  newRow.append(newPubDate);
+  $(".library-table").append(newRow);
+  console.log("test");
+};
+
 
 //runs when DOM loads, creates new instance of Library as myLibrary, calls startUp function
 $(function(e){
@@ -76,8 +130,7 @@ Library.prototype.addBook = function(book) {
     }
   }
   this.bookArray.push(book);
-
-  // $(".table").append("<tr><td>" + book.title + "</td>"+"<td>" + book.author + "</td>"+"<td>" + book.pages + "</td>"+"<td>" + book.pubDate + "</td>"+"</tr>");
+  this.displayAddBook(book);
   return true;
 };
 
@@ -89,6 +142,8 @@ Library.prototype.removeBookByTitle = function(title) {
   for (var i = 0; i < this.bookArray.length; i++) {
      if (this.bookArray[i].title.toLowerCase() === title.toLowerCase()) {
         this.bookArray.splice(i, 1);
+
+        this.displayArray(this.bookArray);
         return true;
     }
   }
@@ -99,8 +154,10 @@ Library.prototype.removeBookByTitle = function(title) {
 Library.prototype.removeBooksByAuthor = function(author) {
   var boolean = false;
   for (var i = this.bookArray.length - 1; i >= 0; i--) {
-     if (this.bookArray[i].author == author) {
+     if (this.bookArray[i].author.toLowerCase() === author.toLowerCase()) {
         this.bookArray.splice(i, 1);
+
+        this.displayArray(this.bookArray);
         boolean = true;
     }
   }
@@ -109,7 +166,6 @@ Library.prototype.removeBooksByAuthor = function(author) {
 
 /*function 4: Get random book from library function*/
 Library.prototype.getRandomBook = function() {
-
   if (!this.bookArray.length) {
     return null;
   }
@@ -120,8 +176,8 @@ Library.prototype.getRandomBook = function() {
 Library.prototype.getBookByTitle = function(title) {
   var emptyArray = [];
   for (var i = 0; i < this.bookArray.length; i++) {
-    var string = this.bookArray[i].title.toLowerCase(); //don't use 'string' it's a key word
-    if (string.indexOf(title.toLowerCase()) > -1){
+    var s = this.bookArray[i].title.toLowerCase(); //don't use 'string' it's a key word
+    if (s.indexOf(title.toLowerCase()) > -1){
       emptyArray.push(this.bookArray[i]);
     }
   }
@@ -246,7 +302,6 @@ $(function(){
 });
 
 /*toggles between query boxes as sidebar options are clicked*/
-
   $("#btnOne").on('click', function(){
     $(".boxes").filter(".boxOne").toggle(1000);
     $(".boxTwo, .boxThree, .boxFour, .boxFive, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
