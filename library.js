@@ -1,11 +1,32 @@
 /*Library Constructor*/
 var Library = function(instanceKey) {
   this.bookArray = new Array();
-  this.intanceKey = instanceKey;
+  this.instanceKey = instanceKey;
 };
 
-/*instantiating Library object as "myLibrary"...*/
-//var myLibrary = new Library();
+/* Local Storage */
+Library.prototype.storage = function () {
+  console.log(this.instanceKey);
+  if (typeof(Storage) !== "undefined") {
+    var myStr = JSON.stringify(this.bookArray);
+    localStorage.setItem(this.instanceKey, myStr);
+    console.log(localStorage.getItem('breakfast'));
+  } else {
+      // Sorry! No Web Storage support..
+  }
+};
+
+Library.prototype.retrieveStorage = function () {
+  if (typeof(Storage) !== "undefined") {
+    var x = JSON.parse(localStorage.getItem(this.instanceKey));
+    if (x !== null) {
+      for (var i = 0; i < x.length; i++) {
+        this.bookArray.push(x[i]);
+      }
+    }
+  }
+
+};
 
 /*book constructor*/
 var Book = function(args) {
@@ -15,13 +36,16 @@ var Book = function(args) {
   this.pubDate = new Date(args.pubDate);
 };
 
-// startUp function runs the bindEvents function (and other functions you want immediatelly activated), so all event listeners are activated when DOM loads
+// startUp function runs the bindEvents function (and other functions you want immediatelly activated)
 Library.prototype.startUp = function() {
   this.bindEvents();
-}
+  this.retrieveStorage();
+  this.displayLibraryArray(this.bookArray);
+};
 
 //bindEvents function runs the event listeners, Houses all event listenters/buttons
 Library.prototype.bindEvents = function() {
+    /*Buttons*/
     $("#addBookBtn").on('click', $.proxy(this.handleAddBook, this));
     $("#removeTitleBtn").on('click', $.proxy(this.handleRemoveBookByTitle, this));
     $("#removeAuthorBtn").on('click', $.proxy(this.handleRemoveBooksByAuthor, this));
@@ -29,16 +53,16 @@ Library.prototype.bindEvents = function() {
     $("#bookByTitleBtn").on('click', $.proxy(this.handleGetBookByTitle, this));
     $("#bookByAuthorBtn").on('click', $.proxy(this.handleGetBookByAuthor, this));
     $("#addBooksBtn").on('click', $.proxy(this.handleAddBooks, this));
-    $("#listAuthorsBtn").on('click', $.proxy(this.handleGetAuthor, this));
+    $("#addMoreBooksBtn").on('click', $.proxy(this.handleAddMoreBooks, this));
+    $("#listAuthorsBtn").on('click', $.proxy(this.handleGetAuthors, this));
     $("#randomAuthorBtn").on('click', $.proxy(this.handleGetRandomAuthor, this));
 
-    /*disable and enable button*/
-    $(".form-group input[type=submit]").attr('disabled', 'disabled');
-    // When User Fills Out Form Completely
-    $(".form-group button").keyup(function(){
-    $(".form-group input[type=submit]").removeAttr('disabled');
-    });
+    /*hides all query boxes after page loads*/
+    $(".boxes").hide();
 };
+
+
+/************** HANDLER FUNCTIONS **************/
 
 //ACTION when the corresponding button is pressed (in the event listener section)
 /*Add Book Handler*/
@@ -47,78 +71,84 @@ Library.prototype.handleAddBook = function(args) {
     newBook.title = $("#addBookTitle").val();
     newBook.author = $("#addBookAuthor").val();
     newBook.pages = $("#addBookPages").val();
-    newBook.pubDate = $("#addBookPubDate").val();
+    newBook.pubDate = new Date($("#addBookPubDate").val());
     this.addBook(newBook);
     $(".form-group").children('input').val('');
 };
+
 /*Remove book by title handler*/
 Library.prototype.handleRemoveBookByTitle = function() {
   var bookTitle = $("#inputRemoveTitle").val();
   this.removeBookByTitle(bookTitle);
   $(".form-group").children('input').val('');
 };
+
 /*Remove books by author handler*/
 Library.prototype.handleRemoveBooksByAuthor = function() {
   var bookAuthor = $("#inputRemoveAuthor").val();
   this.removeBooksByAuthor(bookAuthor);
   $(".form-group").children('input').val('');
 };
+
 /*Get a random book handler*/
 Library.prototype.handleGetRandomBook = function() {
   this.getRandomBook();
 };
 
-Library.prototype.handleGetBookByTitle = function() {};
+/*Get a book by its title handler*/
+Library.prototype.handleGetBookByTitle = function() {
+  var bookTitle = $("#inputGetTitle").val();
+  this.getBookByTitle(bookTitle);
+  $(".form-group").children('input').val('');
+};
 
-Library.prototype.handleGetBookByAuthor = function() {};
+/*Get books by author name handler*/
+Library.prototype.handleGetBookByAuthor = function() {
+  var bookAuthor = $("#inputGetAuthor").val();
+  this.getBooksByAuthor(bookAuthor);
+  $(".form-group").children('input').val('');
+};
 
-Library.prototype.handleAddBooks = function() {};
-
-Library.prototype.handleGetAuthor = function() {};
-
-Library.prototype.handleGetRandomAuthor = function() {};
-
-
-/************* DISPLAY FUNCTIONS *************/
-/*displays current book array*/
-Library.prototype.displayArray = function(array) {
-  $('.data').remove();
-  //console.log(array.length);
-  for (var i = 0; i < array.length; i++) {
-    //console.log(i);
-    this.displayAddBook(array[i]);
+/*Add multiple books handler*/
+Library.prototype.handleAddBooks = function() {
+  var titleArray = [], authorArray = [], pagesArray = [], pubDateArray = [];
+  $('.addBookTitle').each(function() {
+  titleArray.push($(this).val());
+  })
+  $('.addBookAuthor').each(function() {
+  authorArray.push($(this).val());
+  })
+  $('.addBookPages').each(function() {
+  pagesArray.push($(this).val());
+  })
+  $('.addBookPubDate').each(function() {
+  pubDateArray.push($(this).val());
+  })
+  for (var i = 0; i < titleArray.length; i++) {
+    this.addBook(new Book({title: titleArray[i], author: authorArray[i], pages: pagesArray[i], pubDate: pubDateArray[i]}));
   }
+  $(".form-group").children('input').val('');
 };
 
-/*Display search results*/
-Library.prototype.displaySearchResults = function() {
-
+/*Adds multiple forms to add multiple books*/
+Library.prototype.handleAddMoreBooks = function () {
+  $(".books-input:last").clone().appendTo(".books-form");
+  $(".form-group:last").children('input').val('');
 };
 
-/*Displays added book*/
-Library.prototype.displayAddBook = function(book) {
-  var newRow = $("<tr class='data'>");
-  var newTitle = $("<td>").text(book.title);
-  var newAuthor = $("<td>").text(book.author);
-  var newPages = $("<td>").text(book.pages);
-  var newPubDate = $("<td>").text(book.pubDate);
-  newRow.append(newTitle);
-  newRow.append(newAuthor);
-  newRow.append(newPages);
-  newRow.append(newPubDate);
-  $(".library-table").append(newRow);
-  console.log("test");
+/*List all authors in library handler*/
+Library.prototype.handleGetAuthors = function() {
+  this.getAuthors();
+};
+
+/*Get a random author handler*/
+Library.prototype.handleGetRandomAuthor = function() {
+  this.getRandomAuthorName();
 };
 
 
-//runs when DOM loads, creates new instance of Library as myLibrary, calls startUp function
-$(function(e){
-  window.myLibrary = new Library("bradLibrary");
-  window.myLibrary.startUp();
-});
+/************** ORIGINAL JS FUNCTIONS **************/
 
-
-/*ORIGINAL JS FUNCTIONS*/
 /*function 1: add book function*/
 Library.prototype.addBook = function(book) {
   if (typeof(book) === 'undefined' || typeof(book) === "number" || typeof(book) === "string") {
@@ -131,6 +161,7 @@ Library.prototype.addBook = function(book) {
   }
   this.bookArray.push(book);
   this.displayAddBook(book);
+  this.storage();
   return true;
 };
 
@@ -143,7 +174,8 @@ Library.prototype.removeBookByTitle = function(title) {
      if (this.bookArray[i].title.toLowerCase() === title.toLowerCase()) {
         this.bookArray.splice(i, 1);
 
-        this.displayArray(this.bookArray);
+        this.displayLibraryArray(this.bookArray);
+        this.storage();
         return true;
     }
   }
@@ -157,30 +189,36 @@ Library.prototype.removeBooksByAuthor = function(author) {
      if (this.bookArray[i].author.toLowerCase() === author.toLowerCase()) {
         this.bookArray.splice(i, 1);
 
-        this.displayArray(this.bookArray);
+        this.displayLibraryArray(this.bookArray);
         boolean = true;
     }
   }
+  this.storage();
   return boolean;
 };
 
 /*function 4: Get random book from library function*/
 Library.prototype.getRandomBook = function() {
+  var x;
+  var randomBook = Math.floor(Math.random() * this.bookArray.length);
   if (!this.bookArray.length) {
     return null;
   }
-  return this.bookArray[Math.floor(Math.random() * this.bookArray.length)];
+  x = this.bookArray[randomBook];
+  this.displayRandomBook(x);
+  return x;
 };
 
-/*function 5: Get book by Title(s) function*/
+/*function 5: Get book by Title function*/
 Library.prototype.getBookByTitle = function(title) {
   var emptyArray = [];
   for (var i = 0; i < this.bookArray.length; i++) {
-    var s = this.bookArray[i].title.toLowerCase(); //don't use 'string' it's a key word
+    var s = this.bookArray[i].title.toLowerCase();
     if (s.indexOf(title.toLowerCase()) > -1){
       emptyArray.push(this.bookArray[i]);
     }
   }
+  this.displayBookByTitle(emptyArray);
   return emptyArray;
 };
 
@@ -192,6 +230,7 @@ Library.prototype.getBooksByAuthor = function(author) {
     emptyArray.push(this.bookArray[i]);
     }
   }
+  this.displayBookByAuthor(emptyArray);
   return emptyArray;
 };
 
@@ -215,93 +254,154 @@ Library.prototype.getAuthors = function() {
     var filteredArray = emptyArray.filter(function (value, index, array) {return array.indexOf(value) == index; });
     }
   }
+  this.displayGetAuthors(filteredArray);
   return filteredArray;
 };
 
 /*Function 9: get a random author in library*/
 Library.prototype.getRandomAuthorName = function() {
+  var x;
+  var randomAuthor = Math.floor(Math.random() * this.bookArray.length);
   if (!this.bookArray.length) {
     return null;
   }
-  return this.bookArray[Math.floor(Math.random() * this.bookArray.length)].author;
+  x = this.bookArray[randomAuthor].author;
+  this.displayRandomAuthor(x);
+  return x;
 };
 
-// /*Function 10: Rubust search function, search by more than one property...working*/
-// Library.prototype.search = function(book) {
-//   for (var i = 0; i < this.bookArray.length; i++) {
-//     //var book = this.bookArray[i];
-//     switch (book) {
-//       case this.bookArray[i] === book:
-//         return "test";
-//         break;
-//       default:
-//         return "default";
-//     }
-//   }
-// };
+
+/************** DISPLAY FUNCTIONS **************/
+
+/*displays current library array*/
+Library.prototype.displayLibraryArray = function(array) {
+  $('.lData').remove();
+  //console.log(array.length);
+  for (var i = 0; i < array.length; i++) {
+    //console.log(i);
+    this.displayAddBook(array[i]);
+  }
+};
+
+/*Displays added book*/
+Library.prototype.displayAddBook = function(book) {
+  var newRow = $("<tr class='lData'>");
+  var newTitle = $("<td>").text(book.title);
+  var newAuthor = $("<td>").text(book.author);
+  var newPages = $("<td>").text(book.pages);
+  var newPubDate = $("<td>").text(book.pubDate);
+  newRow.append(newTitle);
+  newRow.append(newAuthor);
+  newRow.append(newPages);
+  newRow.append(newPubDate);
+  $(".library-table").append(newRow);
+  console.log("Added a book to library");
+};
+
+/*Displays a random book on search results table*/
+Library.prototype.displayRandomBook = function(book) {
+  $('.rData').remove();
+  this.displaySearchResults(book);
+};
+
+/*Constructs and displays search results table*/
+Library.prototype.displaySearchResults = function(book) {
+  var newRow = $("<tr class='rData'>");
+  var newTitle = $("<td>").text(book.title);
+  var newAuthor = $("<td>").text(book.author);
+  var newPages = $("<td>").text(book.pages);
+  var newPubDate = $("<td>").text(book.pubDate);
+  newRow.append(newTitle);
+  newRow.append(newAuthor);
+  newRow.append(newPages);
+  newRow.append(newPubDate);
+  $(".results-table").append(newRow);
+  console.log("Added a book to Search Results");
+};
+
+/*Displays a random Author to search results table*/
+Library.prototype.displayRandomAuthor = function(author) {
+  $('.rData').remove();
+  this.displaySearchResultsAuthor(author);
+};
+
+/*Constructs and displays author name to search results table*/
+Library.prototype.displaySearchResultsAuthor = function(author) {
+  var newRow = $("<tr class='rData'>");
+  var newTitle = $("<td>")
+  var newAuthor = $("<td>").text(author);
+  var newPages = $("<td>")
+  var newPubDate = $("<td>")
+  newRow.append(newTitle);
+  newRow.append(newAuthor);
+  newRow.append(newPages);
+  newRow.append(newPubDate);
+  $(".results-table").append(newRow);
+  console.log("Added an author to Search Results");
+};
+
+/*Displays book(s) retrieved by title(s) to search results table*/
+Library.prototype.displayBookByTitle = function(book) {
+  $('.rData').remove();
+  this.displaySearchResultsTitleOrAuthor(book);
+};
+
+/*Displays book(s) retrieved by Author(s) to search results table*/
+Library.prototype.displayBookByAuthor = function(book) {
+  $('.rData').remove();
+  this.displaySearchResultsTitleOrAuthor(book);
+};
+
+/*Constructs and displays book(s) retrieved by title(s) or author(s) to search results table*/
+Library.prototype.displaySearchResultsTitleOrAuthor = function(book) {
+  $.each(book, function(index, value) {
+  var newRow = $("<tr class='rData'>");
+  var newTitle = $("<td>").text(value.title);
+  var newAuthor = $("<td>").text(value.author);
+  var newPages = $("<td>").text(value.pages);
+  var newPubDate = $("<td>").text(value.pubDate);
+  newRow.append(newTitle);
+  newRow.append(newAuthor);
+  newRow.append(newPages);
+  newRow.append(newPubDate);
+  $(".results-table").append(newRow);
+  });
+  console.log("Added books by title or author to Search Results");
+};
+
+/*Displays list of Author(s) to search results table*/
+Library.prototype.displayGetAuthors = function(authors) {
+  $('.rData').remove();
+  this.displaySearchResultsAuthors(authors);
+};
+
+/*Constructs and displays list of Author(s) to search results table*/
+Library.prototype.displaySearchResultsAuthors = function(authors) {
+  $.each(authors, function(index, value) {
+  var newRow = $("<tr class='rData'>");
+  var newTitle = $("<td>")
+  var newAuthor = $("<td>").text(authors[index]);
+  var newPages = $("<td>")
+  var newPubDate = $("<td>")
+  newRow.append(newTitle);
+  newRow.append(newAuthor);
+  newRow.append(newPages);
+  newRow.append(newPubDate);
+  $(".results-table").append(newRow);
+  });
+  console.log("Added list of authors to Search Results");
+};
 
 
-
-/*Individual Books created using book constructor*/
-var bookOne = new Book({title: "Collusion", author: "Harding", pages: 368, pubDate: "01/01/2001"});
-var bookTwo = new Book({title: "The Glass Castle", author: "Walls", pages: 288, pubDate: "01/02/2002"});
-var bookThree = new Book({title: "Being Mortal", author: "Gawande", pages: 304, pubDate: "01/03/2003"});
-var bookFour = new Book({title: "The Undoing Project", author: "Lewis", pages: 369, pubDate: "01/04/2004"});
-var bookFive = new Book({title: "Thinking Fast and Slow", author: "Kahneman", pages: 528, pubDate: "01/05/2005"});
-var bookSix = new Book({title: "Another Book", author: "Kahneman", pages: 538, pubDate: "01/06/2006"});
-var bookSeven = new Book({title: "Yet Another Book", author: "Kahneman", pages: 548, pubDate: "01/07/2007"});
-var bookEight = new Book({title: "Kahneman's Brother", author: "Kahneman's Evil Twin", pages: 548, pubDate: "01/07/2007"});
-
-/*multiple book array*/
-var multipleBooks = [
-  new Book({title: "Sorcerer's Stone", author: "J. K. Rowling", pages: 309, pubDate: "1997"}),
-  new Book({title: "Chamber of Secrets", author: "J. K. Rowling", pages: 341, pubDate: "1998"}),
-  new Book({title: "Prisoner of Azkaban", author: "J. K. Rowling", pages: 435, pubDate: "1999"})
-];
-
-/*Testing*/
-// console.log(myLibrary.addBook(bookOne)); //1. add a book, return true
-// console.log(myLibrary.addBook(bookOne)); //add the same book, return false
-// console.log(myLibrary.removeBookByTitle("Collusion")); //2. remove book by title, return true
-// console.log(myLibrary.removeBookByTitle("Collusion")); //remove book not in library, return false
-// console.log(myLibrary.addBook(bookTwo)); //add some more books to library
-// console.log(myLibrary.addBook(bookThree));
-// console.log(myLibrary.addBook(bookFour));
-// console.log(myLibrary.addBook(bookFive));
-// console.log(myLibrary.addBook(bookSix));
-// console.log(myLibrary.bookArray);
-// console.log(myLibrary.removeBooksByAuthor("Walls")); //3. remove a book by author name, return true
-// console.log(myLibrary.bookArray);
-// console.log(myLibrary.removeBooksByAuthor("Walls")); //remove a book by author not in library, return false
-// console.log(myLibrary.removeBooksByAuthor("Kahneman")); //remove multiple books by author
-// console.log(myLibrary.bookArray);
-// console.log(myLibrary.getRandomBook()); //4. get a random book in Library
-// console.log(myLibrary.getBookByTitle("Being Mortal")); //5. get book by title
-// console.log(myLibrary.getBookByTitle("t")); //get books by partial text
-// console.log(myLibrary.addBook(bookSix)); //add books back into library
-// console.log(myLibrary.addBook(bookSeven));
-// console.log(myLibrary.addBook(bookEight));
-// console.log(myLibrary.getBooksByAuthor("Kahn")); //6. get book(s) by author name, return array of books
-// console.log(myLibrary.addBooks(multipleBooks)); //7. Add multiple books as an array, return number
-// console.log(myLibrary.addBooks(multipleBooks)); //return number zero if no books are added
-// console.log(myLibrary.getAuthors()); //8. get all author names in library
-// console.log(myLibrary.getRandomAuthorName()); //9. get a random author's name in library
-
-/*JQUERY*/
-/*hides all query boxes after page loads*/
-// note: the $(function... is equivalent to $(document).ready(function...
-$(function(){
-  $(".boxes").hide();
-});
+/************** NAVBAR TOGGLE FUNCTIONS **************/
 
 /*clears current query box*/
-$(function(){
   $("#home").on('click', function(){
     $(".boxes").hide(1000);
+    $('.rData').remove();
   });
-});
 
-/*toggles between query boxes as sidebar options are clicked*/
+/*Toggles between query boxes as sidebar options are clicked*/
   $("#btnOne").on('click', function(){
     $(".boxes").filter(".boxOne").toggle(1000);
     $(".boxTwo, .boxThree, .boxFour, .boxFive, .boxSix, .boxSeven, .boxEight, .boxNine").hide();
@@ -340,16 +440,30 @@ $(function(){
   });
 
 
+/************** DOCUMENT READY **************/
 
-// $(function(){
-//     Library.prototype.secondFunction() {
-//       myLibrary.handleAddBook();
-//         // var title = "<strong>Title: </strong>" + $("#addBookTitle").val() + ", ";
-//         // var author = "<strong>Author: </strong>" + $("#addBookAuthor").val() + ", ";
-//         // var pages = "<strong>Pages: </strong>" + $("#addBookPages").val() + ", ";
-//         // var date = "<strong>Pub Date: </strong>" + $("#addBookPubDate").val();
-//         $(".libraryColumn").append("<p><strong>Title: </strong>" + $("book.title").val() + " " + "<strong>Author: </strong>" + $("book.author").val() + " " + "<strong>Pages: </strong>" + $("book.pages").val() + "<strong>Pub Date: </strong>" + $("book.pubDate").val() + " " + "</p>");
-//   }
-// });
+//runs when DOM loads, creates new instance of Library as myLibrary, calls startUp function
+$(function(e){
+  window.myLibrary = new Library("bradLibrary");
+  window.myLibrary.startUp();
+});
 
-// {title: "Collusion", author: "Harding", pages: 368, pubDate: "01/01/2001"}
+
+/************** LIBRARY BOOKS **************/
+
+/*Individual Books created using book constructor*/
+var bookOne = new Book({title: "Collusion", author: "Harding", pages: 368, pubDate: "01/01/2001"});
+var bookTwo = new Book({title: "The Glass Castle", author: "Walls", pages: 288, pubDate: "01/02/2002"});
+var bookThree = new Book({title: "Being Mortal", author: "Gawande", pages: 304, pubDate: "01/03/2003"});
+var bookFour = new Book({title: "The Undoing Project", author: "Lewis", pages: 369, pubDate: "01/04/2004"});
+var bookFive = new Book({title: "Thinking Fast and Slow", author: "Kahneman", pages: 528, pubDate: "01/05/2005"});
+var bookSix = new Book({title: "Another Book", author: "Kahneman", pages: 538, pubDate: "01/06/2006"});
+var bookSeven = new Book({title: "Yet Another Book", author: "Kahneman", pages: 548, pubDate: "01/07/2007"});
+var bookEight = new Book({title: "Kahneman's Brother", author: "Kahneman's Evil Twin", pages: 548, pubDate: "01/07/2007"});
+
+/*multiple book array*/
+var multipleBooks = [
+  new Book({title: "Sorcerer's Stone", author: "J. K. Rowling", pages: 309, pubDate: "1997"}),
+  new Book({title: "Chamber of Secrets", author: "J. K. Rowling", pages: 341, pubDate: "1998"}),
+  new Book({title: "Prisoner of Azkaban", author: "J. K. Rowling", pages: 435, pubDate: "1999"})
+];

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
     <title>Brad's JS 101 Project</title>
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/bootstrap.css">
   </head>
+
   <body>
     <div id="wrapper">
 
@@ -44,7 +46,7 @@
                     </li>
                     <li id="btnSix">
                         <a href="#anch6" data-scroll>
-                            <span class="fa fa-anchor solo">Get Book by Author</span>
+                            <span class="fa fa-anchor solo">Get Book(s) by Author</span>
                         </a>
                     </li>
                     <li id="btnSeven">
@@ -80,7 +82,6 @@
                     <div class="col-md-5 title">
                       <h2 class="leftTitle">Library</h2>
                     </div>
-                    <!-- <div class="col-md-1"></div> -->
                     <div class="col-md-5 title">
                       <h2 class="rightTitle">Search Results</h2>
                     </div>
@@ -97,11 +98,7 @@
                           <th>Pub Date</th>
                         </tr>
                       </table>
-                      <!-- <table class="table library-data">
-
-                      </table> -->
                     </div>
-                    <!-- <div class="col-md-1"></div> -->
                     <div class="col-md-5 column">
                       <table class="table results-table">
                         <tr>
@@ -127,7 +124,7 @@
                             <input type="text" class="form-control" id="addBookPages" placeholder="Pages">
                             <input type="text" class="form-control" id="addBookPubDate" placeholder="Date">
                           </div>
-                          <button type="submit" class="btn btn-primary" id="addBookBtn">Add Book</button>
+                          <button type="submit" class="btn btn-primary" id="addBookBtn">Add Book(s)</button>
                         </form>
                     </div>
                     <div class="col-md-2"></div>
@@ -166,9 +163,6 @@
                     <div class="col-md-6 well">
                         <legend id="anch4">Get Random Book</legend>
                         <form class="form-inline">
-                          <!-- <div class="form-group">
-                            <input type="text" class="form-control" id="inputRandomBook" placeholder="Get Random Book">
-                          </div> -->
                           <button id="randomBookBtn" type="submit" class="btn btn-primary">Get Random Book</button>
                         </form>
                     </div>
@@ -195,7 +189,7 @@
                         <legend id="anch6">Get Book by Author</legend>
                         <form class="form-inline">
                           <div class="form-group">
-                            <input type="text" class="form-control" id="inputAddBook" placeholder="Get Book by Author">
+                            <input type="text" class="form-control" id="inputGetAuthor" placeholder="Get Book by Author">
                           </div>
                           <button id="bookByAuthorBtn" type="submit" class="btn btn-primary">Get Book by Author</button>
                         </form>
@@ -204,17 +198,19 @@
                 </div>
                 <!--Add multiple books at once form-->
                 <div class="row boxSeven boxes">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6 well">
-                        <legend id="anch7">Add Books</legend>
-                        <form class="form-inline">
-                          <div class="form-group">
-                            <input type="text" class="form-control" id="inputAddBooks" placeholder="Add Books">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 well">
+                        <legend id="anch7">Add Books<button type="submit" class="btn btn-primary" id="addBooksBtn">Add Books</button><button type="submit" class="btn btn-primary" id="addMoreBooksBtn">Add More Books</button></legend>
+                        <form class="form-inline books-form">
+                          <div class="form-group books-input">
+                            <input type="text" class="form-control addBookTitle" placeholder="Title">
+                            <input type="text" class="form-control addBookAuthor" placeholder="Author">
+                            <input type="text" class="form-control addBookPages" placeholder="Pages">
+                            <input type="text" class="form-control addBookPubDate" placeholder="Date">
                           </div>
-                          <button id="addBooksBtn" type="submit" class="btn btn-primary">Add Books</button>
                         </form>
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                 </div>
                 <!--List all authors in library form-->
                 <div class="row boxEight boxes">
@@ -222,9 +218,6 @@
                     <div class="col-md-6 well">
                         <legend id="anch8">List All Authors</legend>
                         <form class="form-inline">
-                          <div class="form-group">
-                            <input type="text" class="form-control" id="inputListAuthors" placeholder="List All Authors">
-                          </div>
                           <button id="listAuthorsBtn" type="submit" class="btn btn-primary">List All Authors</button>
                         </form>
                     </div>
@@ -236,21 +229,16 @@
                     <div class="col-md-6 well">
                         <legend id="anch9">Get Random Author</legend>
                         <form class="form-inline">
-                          <!-- <div class="form-group">
-                            <input type="text" class="form-control" id="inputRandomAuthor" placeholder="Get Random Author">
-                          </div> -->
                           <button id="randomAuthorBtn" type="submit" class="btn btn-primary">Get Random Author</button>
                         </form>
                     </div>
                     <div class="col-md-3"></div>
                 </div> <!--end row-->
-                <!-- </div> -->
             </div> <!--end page content inset-->
         </div> <!--end page content wrapper-->
     </div> <!--end wrapper-->
     <script src="jquery-3.2.1.js"></script>
     <script src="library.js"></script>
   </body>
-
 
 </html>

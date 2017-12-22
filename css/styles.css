@@ -1,7 +1,8 @@
 #wrapper {
   padding-left: 250px;
   transition: all 0.4s ease 0s;
-  background-image: url(https://www.standard.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2016/03/11/13/LibrarywallpaperCROP.jpg);
+  background-image: url(https://www.flintski.com/wp-content/uploads/2017/01/clouds.jpg);
+  width: 100%;
 }
 
 #sidebar-wrapper {
@@ -11,7 +12,7 @@
   background: #000;
   position: fixed;
   height: 100%;
-  /*overflow-y: auto;*/
+  overflow-y: auto;
   z-index: 1000;
   transition: all 0.4s ease 0s;
 }
@@ -45,7 +46,6 @@
 }
 
 .sidebar-nav li a {
-  /*color: #999999;*/
   display: block;
   text-decoration: none;
   padding-left: 60px;
@@ -80,10 +80,6 @@
   font-size: 18px;
 }
 
-.sidebar-nav > .sidebar-brand a {
-  /*color: #999999;*/
-}
-
 .sidebar-nav > .sidebar-brand a:hover {
   color: #fff;
   background: none;
@@ -109,10 +105,6 @@
   opacity: 0.8;
 }
 
-/*#menu-toggle {
-    text-decoration: none;
-}*/
-
 .btn-menu {
   color: #000;
 }
@@ -123,7 +115,6 @@
 
 /*Jumbotron*/
 .jumbotron {
-  /* border: 2px solid #000; */
   border-radius: 5px;
   margin-top: 20px;
 }
@@ -155,13 +146,21 @@
 
 .table {
   margin-top: 10px;
-  border: 1px solid #000;
+  border: 1px solid black;
 }
 
 .table th, .table td {
   text-align: center;
   border: 1px solid lightgrey;
   color: blue;
+}
+
+#addBooksBtn, #addMoreBooksBtn {
+  margin: 0 5px 10px 5px;
+}
+
+.books-input {
+  margin: 5px 0;
 }
 
 @media (max-width:767px) {
@@ -174,21 +173,21 @@
   left: 0;
 }
 
-/*#wrapper.active {
+#wrapper.active {
   position: relative;
   left: 250px;
-}*/
+}
 
-/*#wrapper.active #sidebar-wrapper {
+#wrapper.active #sidebar-wrapper {
   left: 250px;
   width: 250px;
   transition: all 0.4s ease 0s;
-}*/
+}
 
 #menu-toggle {
   display: inline-block;
 }
 
-/*.inset {
+.inset {
   padding: 15px;
-}*/
+}
