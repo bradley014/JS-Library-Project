@@ -1,12 +1,244 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
     <title>Brad's JS 101 Project</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
   </head>
+
   <body>
-    <h1>My Library</h1>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <nav id="spy">
+                <ul class="sidebar-nav nav">
+                    <li id="home" class="sidebar-brand">
+                        <a href="#home"><span class="fa fa-home solo">Home</span></a>
+                    </li>
+                    <li id="btnOne">
+                        <a href="#anch1" data-scroll>
+                            <span class="fa fa-anchor solo">Add a Book</span>
+                        </a>
+                    </li>
+                    <li id="btnTwo">
+                        <a href="#anch2" data-scroll>
+                            <span class="fa fa-anchor solo">Remove Book by Title</span>
+                        </a>
+                    </li>
+                    <li id="btnThree">
+                        <a href="#anch3" data-scroll>
+                            <span class="fa fa-anchor solo">Remove Book(s) by Author</span>
+                        </a>
+                    </li>
+                    <li id="btnFour">
+                        <a href="#anch4" data-scroll>
+                            <span class="fa fa-anchor solo">Get a Random Book</span>
+                        </a>
+                    </li>
+                    <li id="btnFive">
+                        <a href="#anch5" data-scroll>
+                            <span class="fa fa-anchor solo">Get Book by Title</span>
+                        </a>
+                    </li>
+                    <li id="btnSix">
+                        <a href="#anch6" data-scroll>
+                            <span class="fa fa-anchor solo">Get Book(s) by Author</span>
+                        </a>
+                    </li>
+                    <li id="btnSeven">
+                        <a href="#anch7" data-scroll>
+                            <span class="fa fa-anchor solo">Add Multiple Books</span>
+                        </a>
+                    </li>
+                    <li id="btnEight">
+                        <a href="#anch8" data-scroll>
+                            <span class="fa fa-anchor solo">List All Authors</span>
+                        </a>
+                    </li>
+                    <li id="btnNine">
+                        <a href="#anch9" data-scroll>
+                            <span class="fa fa-anchor solo">Get a Random Author</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            <div class="content-header">
+                <h1 id="home">Brad's Digital Library</h1>
+            </div>
+
+            <div class="page-content inset" data-spy="scroll" data-target="#spy">
+                <!--jumbotron-->
+                <div class="jumbotron text-center">
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 title">
+                      <h2 class="leftTitle">Library</h2>
+                    </div>
+                    <div class="col-md-5 title">
+                      <h2 class="rightTitle">Search Results</h2>
+                    </div>
+                    <div class="col-md-1"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 column libraryColumn">
+                      <table class="table library-table">
+                        <tr>
+                          <th>Title</th>
+                          <th>Author</th>
+                          <th>Pages</th>
+                          <th>Pub Date</th>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-md-5 column">
+                      <table class="table results-table">
+                        <tr>
+                          <th>Title</th>
+                          <th>Author</th>
+                          <th>Pages</th>
+                          <th>Pub Date</th>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-md-1"></div>
+                  </div>
+                </div>
+                <!--add a book form-->
+                <div class="row boxOne boxes">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 well">
+                        <legend id="anch1">Add a Book</legend>
+                        <form class="form-inline">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="addBookTitle" placeholder="Title">
+                            <input type="text" class="form-control" id="addBookAuthor" placeholder="Author">
+                            <input type="text" class="form-control" id="addBookPages" placeholder="Pages">
+                            <input type="text" class="form-control" id="addBookPubDate" placeholder="Date">
+                          </div>
+                          <button type="submit" class="btn btn-primary" id="addBookBtn">Add Book(s)</button>
+                        </form>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <!--Remove book by title form-->
+                <div class="row boxTwo boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch2">Remove Book by Title</legend>
+                        <form class="form-inline">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="inputRemoveTitle" placeholder="Remove Title">
+                          </div>
+                          <button type="submit" class="btn btn-primary" id="removeTitleBtn">Remove Title</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!--Remove book(s) by author form-->
+                <div class="row boxThree boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch3">Remove Author</legend>
+                        <form class="form-inline">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="inputRemoveAuthor" placeholder="Remove Author">
+                          </div>
+                          <button id="removeAuthorBtn" type="submit" class="btn btn-primary">Remove Author</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!--Get a random book form-->
+                <div class="row boxFour boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch4">Get Random Book</legend>
+                        <form class="form-inline">
+                          <button id="randomBookBtn" type="submit" class="btn btn-primary">Get Random Book</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!--Get book in library by title form-->
+                <div class="row boxFive boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch5">Get Book by Title</legend>
+                        <form class="form-inline">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="inputGetTitle" placeholder="Get Book by Title">
+                          </div>
+                          <button id="bookByTitleBtn" type="submit" class="btn btn-primary">Get Book by Title</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!--Get book in library by author form-->
+                <div class="row boxSix boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch6">Get Book by Author</legend>
+                        <form class="form-inline">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="inputGetAuthor" placeholder="Get Book by Author">
+                          </div>
+                          <button id="bookByAuthorBtn" type="submit" class="btn btn-primary">Get Book by Author</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!--Add multiple books at once form-->
+                <div class="row boxSeven boxes">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 well">
+                        <legend id="anch7">Add Books<button type="submit" class="btn btn-primary" id="addBooksBtn">Add Books</button><button type="submit" class="btn btn-primary" id="addMoreBooksBtn">Add More Books</button></legend>
+                        <form class="form-inline books-form">
+                          <div class="form-group books-input">
+                            <input type="text" class="form-control addBookTitle" placeholder="Title">
+                            <input type="text" class="form-control addBookAuthor" placeholder="Author">
+                            <input type="text" class="form-control addBookPages" placeholder="Pages">
+                            <input type="text" class="form-control addBookPubDate" placeholder="Date">
+                          </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <!--List all authors in library form-->
+                <div class="row boxEight boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch8">List All Authors</legend>
+                        <form class="form-inline">
+                          <button id="listAuthorsBtn" type="submit" class="btn btn-primary">List All Authors</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!--Get a random author from library form-->
+                <div class="row boxNine boxes">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 well">
+                        <legend id="anch9">Get Random Author</legend>
+                        <form class="form-inline">
+                          <button id="randomAuthorBtn" type="submit" class="btn btn-primary">Get Random Author</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div> <!--end row-->
+            </div> <!--end page content inset-->
+        </div> <!--end page content wrapper-->
+    </div> <!--end wrapper-->
+    <script src="jquery-3.2.1.js"></script>
+    <script src="library.js"></script>
   </body>
 
-  <script src="library.js"></script>
 </html>
